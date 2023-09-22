@@ -1,5 +1,6 @@
 import { type } from "@testing-library/user-event/dist/type";
 import { useReducer } from "react";
+const initalstate={count:0,step:1};
 function reducer(state,action){
   console.log(state,action)
   switch(action.type){
@@ -11,6 +12,8 @@ function reducer(state,action){
       return{...state,count:action.payload}
     case "setStep":
       return {...state,step:action.payload}
+     case "reset":
+      return initalstate
      default:
       throw new Error("unkown action"); 
   }
@@ -19,7 +22,7 @@ function reducer(state,action){
 function DateCounter() {
   // const [count,dispatch]=useReducer(reducer,0)
   // const [step, setStep] = useState(1);
-const initalstate={count:0,step:1};
+
 const [state,dispatch]=useReducer(reducer,initalstate);
 const{count,step}=state;
   // This mutates the date object.
@@ -47,6 +50,7 @@ const{count,step}=state;
   };
 
   const reset = function () {
+    dispatch({type:'reset'})
     // setCount(0);
     // setStep(1);
   };

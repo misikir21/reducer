@@ -1,6 +1,8 @@
 import './index.css';
 import Header from './Header';
 import Main from './Main';
+import Loader from './Loader'
+import Error from './Error'
 import { useEffect, useReducer } from 'react';
 function App() {
   const initalState={
@@ -32,7 +34,7 @@ function App() {
 
 
 
- const [state,dispatch]=useReducer(reducer,initalState)
+ const [{status,questions},dispatch]=useReducer(reducer,initalState)
 
 
   useEffect(function (){
@@ -45,7 +47,8 @@ function App() {
     <div className='app'>
       <Header />
       <Main>
-        <p>15</p>
+        {status ==="loading" && <Loader />}
+        {status ==="error" && <Error />}
         <p>Qestions</p>
 
       </Main>

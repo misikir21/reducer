@@ -1,5 +1,6 @@
 import './index.css';
 import Header from './Header';
+import Start from './Start'
 import Main from './Main';
 import Loader from './Loader'
 import Error from './Error'
@@ -36,7 +37,7 @@ function App() {
 
  const [{status,questions},dispatch]=useReducer(reducer,initalState)
 
-
+ const numqustions=questions.length;
   useEffect(function (){
     fetch("http://localhost:8000/questions")
     .then((res)=>res.json())
@@ -49,6 +50,7 @@ function App() {
       <Main>
         {status ==="loading" && <Loader />}
         {status ==="error" && <Error />}
+        {status ==="ready" && <Start numqustions={numqustions}/>}
         <p>Qestions</p>
 
       </Main>

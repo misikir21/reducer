@@ -9,7 +9,7 @@ import Questions from './Questions';
 function App() {
   const initalState={
     questions:[],
-
+    index:0,
     status:'loading'
   }
 
@@ -40,7 +40,7 @@ function App() {
 
 
 
- const [{status,questions},dispatch]=useReducer(reducer,initalState)
+ const [{status,questions,index},dispatch]=useReducer(reducer,initalState)
 
  const numqustions=questions.length;
   useEffect(function (){
@@ -56,7 +56,7 @@ function App() {
         {status ==="loading" && <Loader />}
         {status ==="error" && <Error />}
         {status ==="ready" && <Start numqustions={numqustions} dispatch={dispatch}/>}
-        {status ==="active" && <Questions />}
+        {status ==="active" && <Questions  question={questions[index]}/>} 
 
       </Main>
     </div>

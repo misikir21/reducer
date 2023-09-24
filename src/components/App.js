@@ -1,4 +1,4 @@
-import './index.css';
+import '../../src/index.css';
 import Header from './Header';
 import Start from './Start'
 import Main from './Main';

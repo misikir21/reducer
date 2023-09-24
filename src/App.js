@@ -5,6 +5,7 @@ import Main from './Main';
 import Loader from './Loader'
 import Error from './Error'
 import { useEffect, useReducer } from 'react';
+import Questions from './Questions';
 function App() {
   const initalState={
     questions:[],
@@ -26,6 +27,10 @@ function App() {
       return{
         ...state,
         status:"error"
+      }
+
+      case"start":return{...state,
+        status:"active"
       }
      default:
       throw new Error("ACTOION UNKOWN") 
@@ -50,8 +55,8 @@ function App() {
       <Main>
         {status ==="loading" && <Loader />}
         {status ==="error" && <Error />}
-        {status ==="ready" && <Start numqustions={numqustions}/>}
-        <p>Qestions</p>
+        {status ==="ready" && <Start numqustions={numqustions} dispatch={dispatch}/>}
+        {status ==="active" && <Questions />}
 
       </Main>
     </div>

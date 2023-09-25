@@ -6,6 +6,7 @@ import Loader from "./Loader";
 import Error from "./Error";
 import { useEffect, useReducer } from "react";
 import Questions from "./Questions";
+import NextButton from "./NextButton";
 function App() {
 	const initalState = {
 		questions: [],
@@ -37,19 +38,23 @@ function App() {
 					...state,
 					answer: action.payload,
 					points:
-						action.payload === question.corectOption
+						action.payload === question.correctOption
 							? state.points + question.points
 							: state.points,
+				};
+			case "nextQuestion":
+				return {
+					...state,
+					index: state.index + 1,
+					answer: null,
 				};
 			default:
 				throw new Error("ACTOION UNKOWN");
 		}
 	}
 
-	const [{ status, questions, index, answer }, dispatch] = useReducer(
-		reducer,
-		initalState
-	);
+	const [{ status, questions, index, answer, points, numQuestions }, dispatch] =
+		useReducer(reducer, initalState);
 
 	const numqustions = questions.length;
 	useEffect(function () {
@@ -65,14 +70,22 @@ function App() {
 				{status === "loading" && <Loader />}
 				{status === "error" && <Error />}
 				{status === "ready" && (
-					<Start numqustions={numqustions} dispatch={dispatch} />
+					<Start numQuestions={numQuestions} dispatch={dispatch} />
 				)}
 				{status === "active" && (
-					<Questions
-						question={questions[index]}
-						dispatch={dispatch}
-						answer={answer}
-					/>
+					<>
+						<progress
+							index={index}
+							numQuestions={numqustions}
+							points={points}
+						/>
+						<Questions
+							question={questions[index]}
+							dispatch={dispatch}
+							answer={answer}
+						/>
+						<NextButton dispatch={dispatch} />
+					</>
 				)}
 			</Main>
 		</div>
